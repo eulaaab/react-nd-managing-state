@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import Score from "./components/Score/Score";
+import Game from "./components/Game/Game";
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      numQuestions: 0,
+      numCorrect: 0,
+    };
+    // this.question = this.question(this);
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  answerHandler = (answerCorrect) => {
+    if (answerCorrect) {
+      this.setState((currentState) => ({
+        numCorrect: currentState.numCorrect + 1,
+        numQuestions: currentState.numQuestions + 1,
+      }));
+    } else {
+      this.setState((currentState) => ({
+        numQuestions: currentState.numQuestions + 1,
+      }));
+    }
+  };
+
+  render() {
+    const { numCorrect, numQuestions } = this.state;
+    return (
+      <div className="App">
+        <header className="App-header">
+          {
+            //<img src={logo} className="App-logo" alt="logo" />
+          }
+          <h1 className="App-title">ReactND - Coding Practice</h1>
+        </header>
+        <div className="game">
+          <Game answerHandler={this.answerHandler} />
+          <Score numCorrect={numCorrect} numQuestions={numQuestions} />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
